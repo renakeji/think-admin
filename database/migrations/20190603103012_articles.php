@@ -1,7 +1,7 @@
 <?php
 
-use think\migration\Migrator;
 use think\migration\db\Column;
+use think\migration\Migrator;
 
 class Articles extends Migrator
 {
@@ -26,11 +26,24 @@ class Articles extends Migrator
      * Remember to call "create()" or "update()" and NOT "save()" when working
      * with the Table class.
      */
-    public function change()
+    public function up()
     {
-        $table = $this->table('articles',array('engine'=>'MyISAM'));
-        $table->addColumn('id','int',array('limit'=>10,'default'=>''))
-            ->addIndex(array('id'),array('unique'=>true))
+        $table = $this->table('wd_articles', array('engine' => 'MyISAM'));
+        $table->addColumn('cid', 'integer', array('limit' => 10, 'default' => 0))
+            ->addColumn('title', 'string', array('limit' => 255, 'default' => ''))
+            ->addColumn('desc', 'string', array('limit' => 255, 'default' => ''))
+            ->addColumn('thumb', 'string', array('limit' => 255, 'default' => ''))
+            ->addColumn('content', 'text')
+            ->addColumn('status', 'integer', array('limit' => 1, 'default' => 1))
+            ->addColumn('addtime', 'integer', array('limit' => 10, 'default' => 0))
+            ->addColumn('updatetime', 'integer', array('limit' => 10, 'default' => 1))
+            ->addColumn('deltime', 'integer', array('limit' => 10, 'default' => 1))
+            ->addIndex(array('id'), array('unique' => true))
             ->create();
+    }
+
+    public function down()
+    {
+        $this->dropTable('wd_articles');
     }
 }
